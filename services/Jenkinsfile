@@ -29,7 +29,8 @@ pipeline {
                         echo "Matches1: $matches1 for Service: ${it}"
                         echo "if($matches1)"
                          if("$matches1"!="false"){
-                            ["${it}" : generateStage(it)]
+                             generateStage(it)
+                            //["${it}" : generateStage(it)]
                          }
                     }
                     parallel parallelStagesMap
