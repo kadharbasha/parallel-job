@@ -30,11 +30,11 @@ pipeline {
                         echo "if($matches1)"
                          if("$matches1"){
                              //generateStage(it)
-                            ["${it}" : generateStage(it)]
+                            //["${it}" : generateStage(it)]
                          }
                     }
                     echo "parallel var: ${parallelStagesMap}"
-                    parallel parallelStagesMap
+                    parallel generateStage(job[2])
                 }
             }
             post{
