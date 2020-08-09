@@ -27,7 +27,7 @@ pipeline {
                             script: "git diff --name-only HEAD~1 | sort -u | awk -F/ {'print \$2,\$3'} | uniq | grep -x '${it} build'", returnStatus: true
                         ) == 0
                         echo "Matches1: $matches1 for Service: ${it}"
-                         if("${job[0]}"=="dir2"){
+                         if("$matches1"){
                             ["${it}" : generateStage(it)]
                          }
                     }
@@ -46,11 +46,11 @@ pipeline {
 def generateStage(serv) {
     return {
         if("${serv}"!="dir4v2" && "${serv}"!="dir5v2"){
-            matches1 = sh (
+            /*matches1 = sh (
                 script: "git diff --name-only HEAD~1 | sort -u | awk -F/ {'print \$2,\$3'} | uniq | grep -x '${serv} build'", returnStatus: true
             ) == 0
             echo "Matches1: $matches1 for Service: ${serv}"
-            if("$matches1"!="false"){
+            if("$matches1"!="false"){*/
                 stage(serv + ' build'){
                     catchError(buildResult: 'FAILURE', stageResult: 'FAILURE'){
                         script {
@@ -63,16 +63,16 @@ def generateStage(serv) {
                         }    
                     }
                 }
-            }
+            //}
         }
         // condition for version 2 services
         else if("${serv}"=="dir4v2" || "${serv}"=="dir5v2"){
             redir1 = "${serv}".toString().replaceAll("v2","")
-            matches2 = sh (
+            /*matches2 = sh (
                 script: "git diff --name-only HEAD~1 | sort -u | awk -F/ {'print \$2,\$3'} | uniq | grep -x '${redir1} v2'", returnStatus: true
             ) == 0
             echo "Matches2: $matches2 for Service: ${serv} "
-            if("$matches2"!="false"){
+            if("$matches2"!="false"){*/
                 stage(serv + ' build'){
                     catchError(buildResult: 'FAILURE', stageResult: 'FAILURE'){
                         script{
@@ -85,7 +85,7 @@ def generateStage(serv) {
                         }
                     }
                 }
-            }
+            //}
         }
     }
 }
