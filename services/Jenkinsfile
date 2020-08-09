@@ -28,8 +28,7 @@ pipeline {
                         ) == 0
                         echo "Matches1: $matches1 for Service: ${it}"
                         echo "if($matches1)"
-                        echo "parallel var: ${parallelStagesMap}"
-                         if("$matches1"!="false"){
+                         if("$matches1"){
                              //generateStage(it)
                             ["${it}" : generateStage(it)]
                          }
@@ -48,6 +47,7 @@ pipeline {
 
 def generateStage(serv) {
     return {
+        echo "parallel var: ${parallelStagesMap}"
         if("${serv}"!="dir4v2" && "${serv}"!="dir5v2"){
             /*matches1 = sh (
                 script: "git diff --name-only HEAD~1 | sort -u | awk -F/ {'print \$2,\$3'} | uniq | grep -x '${serv} build'", returnStatus: true
