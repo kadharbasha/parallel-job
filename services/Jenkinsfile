@@ -21,7 +21,7 @@ pipeline {
                         "dir6",
                         "dir7"
                     ]
-                     def parallelStagesMap = job.collectEntries {
+                     /*def parallelStagesMap = job.collectEntries {
                          echo "${it}"
                          matches1 = sh (
                             script: "git diff --name-only HEAD~1 | sort -u | awk -F/ {'print \$2,\$3'} | uniq | grep -x '${it} build'", returnStatus: true
@@ -33,7 +33,7 @@ pipeline {
                             //["${it}" : generateStage(it)]
                          }
                     }
-                    echo "parallel var: ${parallelStagesMap}"
+                    echo "parallel var: ${parallelStagesMap}"*/
                     parallel generateStage(job[2])
                 }
             }
