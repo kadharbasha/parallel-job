@@ -23,7 +23,6 @@ pipeline {
                     ]
                      def parallelStagesMap = job.collectEntries {
                          echo "${it}"
-                         echo "parallel var: ${parallelStagesMap}"
                          matches1 = sh (
                             script: "git diff --name-only HEAD~1 | sort -u | awk -F/ {'print \$2,\$3'} | uniq | grep -x '${it} build'", returnStatus: true
                         ) == 0
@@ -34,6 +33,7 @@ pipeline {
                             ["${it}" : generateStage(it)]
                          }
                     }
+                    echo "parallel var: ${parallelStagesMap}"
                     parallel parallelStagesMap
                 }
             }
