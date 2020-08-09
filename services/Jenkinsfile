@@ -21,7 +21,7 @@ pipeline {
                         "dir6",
                         "dir7"
                     ]
-                     def parallelStagesMap = job.collect {
+                     def parallelStagesMap = job.collectEntries {
                         ["${it}" : generateStage(it)]
                     }
                     parallel parallelStagesMap
